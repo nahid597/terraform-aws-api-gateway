@@ -6,6 +6,9 @@ resource "aws_api_gateway_deployment" "api_deployment" {
     redeployment = sha1(jsonencode(var.deployment_triggers))
   }
 
+  # Ensure deployment happens after all method components are ready
+  depends_on = [var.method_integration_ids]
+
   lifecycle {
     create_before_destroy = true
   }
